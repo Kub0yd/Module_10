@@ -49,7 +49,7 @@ const display = () => {
           liDivContent.innerHTML = `${prop}: ${fruits[i][prop]}`;
           liDiv.appendChild(liDivContent) ;                                      //вставляем divы с контеном под liDiv
         }
-    newLi.className = `fruit_item fruit_${i}`;
+    newLi.className = `fruit__item fruit_${getColor(fruits[i].color)}`;
     fruitsList.appendChild(newLi);
   }
 };
@@ -100,22 +100,19 @@ shuffleButton.addEventListener('click', () => {
 
 // фильтрация массива
 const filterFruits = () => {
-  fruits.filter((item) => {
+  minWeight = isNaN(parseInt(inputWeightMin.value))? 0 : parseInt(inputWeightMin.value)
+  maxWeight = isNaN(parseInt(inputWeightMax.value))? 0 : parseInt(inputWeightMax.value)
+  fruits = fruits.filter((item) => {
     // TODO: допишите функцию
-    minWeight = isNaN(parseInt(inputWeightMin.value))? 0 : parseInt(inputWeightMin.value)
-    maxWeight = isNaN(parseInt(inputWeightMax.value))? 0 : parseInt(inputWeightMax.value)
-    while (inputWeightMin <= item.weight <= inputWeightMax){
-      return console.log('test')
-    }
-       
-    
+      return  minWeight <= item.weight && item.weight <= maxWeight
+
   })
-  // console.log(fruits)
+console.log(fruits)
 };
 
 filterButton.addEventListener('click', () => {
+  
   filterFruits();
-  console.log(filterFruits())
   display();
 });
 
@@ -169,3 +166,30 @@ addActionButton.addEventListener('click', () => {
   // необходимые значения берем из kindInput, colorInput, weightInput
   display();
 });
+function getColor(color) {
+  switch(color){
+    case 'фиолетовый':
+      return 'violet';
+      break;
+    case 'зеленый':
+      return 'green';
+      break;
+  case 'розово-красный':
+      return 'carmazin';
+      break;
+  case 'желтый':
+      return 'yellow';
+      break;
+  case 'светло-коричневый':
+      return 'lightbrown';
+      break;
+  case 'красный':
+      return 'red';
+      break;
+  case 'оранжевый':
+      return 'orange';
+      break;
+  
+  }
+}
+
