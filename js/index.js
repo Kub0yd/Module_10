@@ -2,6 +2,8 @@
 const fruitsList = document.querySelector('.fruits__list'); // список карточек
 const shuffleButton = document.querySelector('.shuffle__btn'); // кнопка перемешивания
 const filterButton = document.querySelector('.filter__btn'); // кнопка фильтрации
+const inputWeightMin = document.getElementById('minweight')
+const inputWeightMax = document.getElementById('maxweight')
 const sortKindLabel = document.querySelector('.sort__kind'); // поле с названием сортировки
 const sortTimeLabel = document.querySelector('.sort__time'); // поле с временем сортировки
 const sortChangeButton = document.querySelector('.sort__change__btn'); // кнопка смены сортировки
@@ -100,11 +102,20 @@ shuffleButton.addEventListener('click', () => {
 const filterFruits = () => {
   fruits.filter((item) => {
     // TODO: допишите функцию
-  });
+    minWeight = isNaN(parseInt(inputWeightMin.value))? 0 : parseInt(inputWeightMin.value)
+    maxWeight = isNaN(parseInt(inputWeightMax.value))? 0 : parseInt(inputWeightMax.value)
+    while (inputWeightMin <= item.weight <= inputWeightMax){
+      return console.log('test')
+    }
+       
+    
+  })
+  // console.log(fruits)
 };
 
 filterButton.addEventListener('click', () => {
   filterFruits();
+  console.log(filterFruits())
   display();
 });
 
