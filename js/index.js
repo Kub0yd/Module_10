@@ -29,10 +29,28 @@ let fruits = JSON.parse(fruitsJSON);
 const display = () => {
   // TODO: очищаем fruitsList от вложенных элементов,
   // чтобы заполнить актуальными данными из fruits
-
+  let ulChilds = document.querySelectorAll('li')
+  ulChilds.forEach((child) => {
+    fruitsList.removeChild(child)
+  })
+  console.log(fruits)
   for (let i = 0; i < fruits.length; i++) {
     // TODO: формируем новый элемент <li> при помощи document.createElement,
     // и добавляем в конец списка fruitsList при помощи document.appendChild
+    let newLi = document.createElement("li");                                    //добавляем тег li
+      let liDiv = document.createElement('div');                                 //добавляем тег Div
+      liDiv.className = 'fruit__info';
+        newLi.appendChild(liDiv);                                                //ставим тег Div под li
+        liDiv.insertAdjacentHTML('afterbegin', `<div>index: ${i}</div>`);        //внедряем контент с индексом сразу после открытия liDiv
+ 
+        for (var prop in fruits[i]) {                                            //перебираем все значеия в объекте с индеком i в массиве fruits
+          let liDivContent = document.createElement('div');                      //добавляем еще Div для контента
+          console.log(fruits[i][prop]);
+          liDivContent.innerHTML = `${prop}: ${fruits[i][prop]}`;
+          liDiv.appendChild(liDivContent) ;                                      //вставляем divы с контеном под liDiv
+        }
+    newLi.className = `fruit_item fruit_${i}`;
+    fruitsList.appendChild(newLi);
   }
 };
 
