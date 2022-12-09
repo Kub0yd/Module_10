@@ -22,7 +22,7 @@ let fruitsJSON = `[
 
 // преобразование JSON в объект JavaScript
 let fruits = JSON.parse(fruitsJSON);
-
+const checkArr = JSON.parse(fruitsJSON); //дублирующий массив для проверки на уникальность
 /*** ОТОБРАЖЕНИЕ ***/
 
 // отрисовка карточек
@@ -33,7 +33,6 @@ const display = () => {
   ulChilds.forEach((child) => {
     fruitsList.removeChild(child)
   })
-  console.log(fruits)
   for (let i = 0; i < fruits.length; i++) {
     // TODO: формируем новый элемент <li> при помощи document.createElement,
     // и добавляем в конец списка fruitsList при помощи document.appendChild
@@ -45,7 +44,6 @@ const display = () => {
  
         for (var prop in fruits[i]) {                                            //перебираем все значеия в объекте с индеком i в массиве fruits
           let liDivContent = document.createElement('div');                      //добавляем еще Div для контента
-          console.log(fruits[i][prop]);
           liDivContent.innerHTML = `${prop}: ${fruits[i][prop]}`;
           liDiv.appendChild(liDivContent) ;                                      //вставляем divы с контеном под liDiv
         }
@@ -76,14 +74,24 @@ const shuffleFruits = () => {
     // вырезаем его из fruits и вставляем в result.
     // ex.: [1, 2, 3], [] => [1, 3], [2] => [3], [2, 1] => [], [2, 1, 3]
     // (массив fruits будет уменьшатся, а result заполняться)
+    let randomIndex = getRandomInt(0,fruits.length-1);
+    result.push(fruits[randomIndex]);
+    fruits.splice(randomIndex, 1);
   }
 
   fruits = result;
+ 
 };
 
 shuffleButton.addEventListener('click', () => {
+
   shuffleFruits();
   display();
+  //если исходный json совпадает со сгенерированным массивом - выдаем предупреждение
+  if (JSON.stringify(checkArr) === JSON.stringify(fruits)) { 
+    alert('Массив не изменился, поробуйте еще раз')
+  }
+  
 });
 
 /*** ФИЛЬТРАЦИЯ ***/
