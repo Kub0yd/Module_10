@@ -126,6 +126,13 @@ main {
 .fruit_lightbrown, .opt-color-5 {
   background: #cd853f;
 }
+.fruit_red, .opt-color-6 {
+  background: red;
+}
+.fruit_orange, .opt-color-7 {
+  background: orange;
+}
+
 
 .fruit__info {
   display: flex;
@@ -136,7 +143,7 @@ main {
   height: 100%;
   padding: 10px;
 }
-/* //// */
+
 .select{
   margin: 5px 10px 5px 0;
   border: 0;

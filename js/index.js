@@ -9,7 +9,7 @@ const sortTimeLabel = document.querySelector('.sort__time'); // поле с вр
 const sortChangeButton = document.querySelector('.sort__change__btn'); // кнопка смены сортировки
 const sortActionButton = document.querySelector('.sort__action__btn'); // кнопка сортировки
 const kindInput = document.querySelector('.kind__input'); // поле с названием вида
-const colorInput = document.querySelector('.color__input'); // поле с названием цвета
+const colorInput = document.querySelector('#fruit-select'); // поле с названием цвета
 const weightInput = document.querySelector('.weight__input'); // поле с весом
 const addActionButton = document.querySelector('.add__action__btn'); // кнопка добавления
 
@@ -21,6 +21,15 @@ let fruitsJSON = `[
   {"kind": "Карамбола", "color": "желтый", "weight": 28},
   {"kind": "Тамаринд", "color": "светло-коричневый", "weight": 22}
 ]`;
+const arrColor = [
+  {'color': 'фиолетовый', 'engColor':'violet', 'Code': '#8b00ff'},
+  {'color': 'зеленый', 'engColor':'green',  'Code': '#84cd1b'},
+  {'color': 'розово-красный', 'engColor':'carmazin',  'Code': '#dc143c'},
+  {'color': 'желтый', 'engColor':'yellow',  'Code': '#ffd800'},
+  {'color': 'светло-коричневый', 'engColor':'lightbrown',  'Code': '#cd853f'},
+  {'color': 'красный', 'engColor':'red',  'Code': 'red'},
+  {'color': 'оранжевый', 'engColor':'orange',  'Code': 'orange'}
+]
 
 // преобразование JSON в объект JavaScript
 let fruits = JSON.parse(fruitsJSON);
@@ -39,17 +48,19 @@ const display = () => {
     // TODO: формируем новый элемент <li> при помощи document.createElement,
     // и добавляем в конец списка fruitsList при помощи document.appendChild
     let newLi = document.createElement("li");                                    //добавляем тег li
-      let liDiv = document.createElement('div');                                 //добавляем тег Div
-      liDiv.className = 'fruit__info';
-        newLi.appendChild(liDiv);                                                //ставим тег Div под li
-        liDiv.insertAdjacentHTML('afterbegin', `<div>index: ${i}</div>`);        //внедряем контент с индексом сразу после открытия liDiv
- 
-        for (var prop in fruits[i]) {                                            //перебираем все значеия в объекте с индеком i в массиве fruits
-          let liDivContent = document.createElement('div');                      //добавляем еще Div для контента
-          liDivContent.innerHTML = `${prop}: ${fruits[i][prop]}`;
-          liDiv.appendChild(liDivContent) ;                                      //вставляем divы с контеном под liDiv
-        }
+    let liDiv = document.createElement('div');                                 //добавляем тег Div
+    liDiv.className = 'fruit__info';
+    newLi.appendChild(liDiv);                                                //ставим тег Div под li
+    liDiv.insertAdjacentHTML('afterbegin', `<div>index: ${i}</div>`);        //внедряем контент с индексом сразу после открытия liDiv
+
+    for (var prop in fruits[i]) {                                            //перебираем все значеия в объекте с индеком i в массиве fruits
+      let liDivContent = document.createElement('div');                      //добавляем еще Div для контента
+      liDivContent.innerHTML = `${prop}: ${fruits[i][prop]}`;
+      liDiv.appendChild(liDivContent);                                      //вставляем divы с контеном под liDiv
+    }
+    
     newLi.className = `fruit__item fruit_${getColor(fruits[i].color)}`;
+    
     fruitsList.appendChild(newLi);
   }
 };
@@ -76,13 +87,13 @@ const shuffleFruits = () => {
     // вырезаем его из fruits и вставляем в result.
     // ex.: [1, 2, 3], [] => [1, 3], [2] => [3], [2, 1] => [], [2, 1, 3]
     // (массив fruits будет уменьшатся, а result заполняться)
-    let randomIndex = getRandomInt(0,fruits.length-1);
+    let randomIndex = getRandomInt(0, fruits.length - 1);
     result.push(fruits[randomIndex]);
     fruits.splice(randomIndex, 1);
   }
 
   fruits = result;
- 
+
 };
 
 shuffleButton.addEventListener('click', () => {
@@ -90,28 +101,28 @@ shuffleButton.addEventListener('click', () => {
   shuffleFruits();
   display();
   //если исходный json совпадает со сгенерированным массивом - выдаем предупреждение
-  if (JSON.stringify(checkArr) === JSON.stringify(fruits)) { 
+  if (JSON.stringify(checkArr) === JSON.stringify(fruits)) {
     alert('Массив не изменился, поробуйте еще раз')
   }
-  
+
 });
 
 /*** ФИЛЬТРАЦИЯ ***/
 
 // фильтрация массива
 const filterFruits = () => {
-  minWeight = isNaN(parseInt(inputWeightMin.value))? 0 : parseInt(inputWeightMin.value)
-  maxWeight = isNaN(parseInt(inputWeightMax.value))? 0 : parseInt(inputWeightMax.value)
+  //если введенное значение неопределено - вставляем ноль
+  minWeight = isNaN(parseInt(inputWeightMin.value)) ? 0 : parseInt(inputWeightMin.value)
+  maxWeight = isNaN(parseInt(inputWeightMax.value)) ? 0 : parseInt(inputWeightMax.value)
   fruits = fruits.filter((item) => {
     // TODO: допишите функцию
-      return  minWeight <= item.weight && item.weight <= maxWeight
+    return minWeight <= item.weight && item.weight <= maxWeight
 
   })
-console.log(fruits)
+  console.log(fruits)
 };
 
 filterButton.addEventListener('click', () => {
-  
   filterFruits();
   display();
 });
@@ -131,16 +142,16 @@ const sortAPI = {
   bubbleSort(arr, comparation) {
     // TODO: допишите функцию сортировки пузырьком
     const n = arr.length; //Длина массива
-    for (let i = 0; i < n-1; i++){
-      for (let j = 0; j < n-1-i; j++){
-        if (comparation(arr[j], arr[j+1])) {
-          let temp = arr[j+1]; 
-            arr[j+1] = arr[j]; 
-            arr[j] = temp; 
+    for (let i = 0; i < n - 1; i++) {
+      for (let j = 0; j < n - 1 - i; j++) {
+        if (comparation(arr[j], arr[j + 1])) {
+          let temp = arr[j + 1];
+          arr[j + 1] = arr[j];
+          arr[j] = temp;
         }
       }
     }
-      
+
   },
 
   quickSort(arr, comparation) {
@@ -149,23 +160,20 @@ const sortAPI = {
     function sortArr(arr) {
       if (arr.length < 2) return arr;
       let pivot = arr[0]; //элемент массива, который сравнивается с другими элементами того же массива.
-      const left = [];  // это массив, в котором хранятся элементы переданного массива, меньшие, чем pivot
-      const right = [];
-       for (let i = 1; i < arr.length; i++) {
-        // console.log('//////////////////////////////')
-        // console.log(left)
-        // console.log(right)
-        // console.log(arr)
-        // console.log('//////////////////////////////')
-       if (comparation (pivot, arr[i])) {
+      const left = [];    // это массив, в котором хранятся элементы переданного массива, меньшие, чем pivot
+      const right = [];   // это массив, в котором хранятся элементы переданного массива, большие, чем pivot
+      for (let i = 1; i < arr.length; i++) { //перебирает входящий массив
+        //вызов функции сравнения, вставляем отобранные значения либо в left либо в right
+        if (comparation(pivot, arr[i])) {
           left.push(arr[i]);
-        }else {
+        } else {
           right.push(arr[i]);
         }
       }
+      //возвращаем значение, соединенного массива из pivot и сортированных left и right 
       return sortArr(left).concat(pivot, sortArr(right))
     }
-    fruits = newArr;
+    fruits = newArr; //запутался в вызовах функций, поэтому просто переписал fruits
   },
 
   // выполняет сортировку и производит замер времени
@@ -203,36 +211,70 @@ sortActionButton.addEventListener('click', () => {
 addActionButton.addEventListener('click', () => {
   // TODO: создание и добавление нового фрукта в массив fruits
   // необходимые значения берем из kindInput, colorInput, weightInput
+  // fruits.push({
+  //   'kind' : 
+  // })
+
   display();
 });
 
+
 function getColor(color) {
-  switch(color){
-    case 'фиолетовый':
-      return 'violet';
-      break;
-    case 'зеленый':
-      return 'green';
-      break;
-  case 'розово-красный':
-      return 'carmazin';
-      break;
-  case 'желтый':
-      return 'yellow';
-      break;
-  case 'светло-коричневый':
-      return 'lightbrown';
-      break;
-  case 'красный':
-      return 'red';
-      break;
-  case 'оранжевый':
-      return 'orange';
-      break;
-  
-  }
+  newColor = '';
+  arrColor.forEach((element) => {
+    if (element.color === color){
+      newColor = element.engColor
+    }
+  })
+  return newColor
+ 
+  // switch (color) {
+  //   case 'фиолетовый':
+  //     return 'violet';
+  //     break;
+  //   case 'зеленый':
+  //     return 'green';
+  //     break;
+  //   case 'розово-красный':
+  //     return 'carmazin';
+  //     break;
+  //   case 'желтый':
+  //     return 'yellow';
+  //     break;
+  //   case 'светло-коричневый':
+  //     return 'lightbrown';
+  //     break;
+  //   case 'красный':
+  //     return 'red';
+  //     break;
+  //   case 'оранжевый':
+  //     return 'orange';
+  //     break;
+
+  // }
+}
+function getColorCode(color) {
+  newColor = '';
+  arrColor.forEach((element) => {
+    if (element.color === color){
+      newColor = element.Code
+    }
+  })
+  console.log(newColor)
+  return newColor
+ 
 }
 
-document.addEventListener('click', (event) => {
-  console.log(event)
+
+colorInput.addEventListener('click', (e) => {
+  target = e.target;
+  // const style = window.getComputedStyle(`.fruit_${getColor(target.value)}`)
+  const style = window.getComputedStyle
+  colorInput.style.cssText = `background-color: ${getColorCode(target.value)};`
+  console.log(target.value)
+
 })
+// options = document.querySelector('option');
+// options.addEventListener('click', (e) => {
+//   console.log(e)
+// })
