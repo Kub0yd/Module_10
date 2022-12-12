@@ -107,23 +107,23 @@ main {
   border-radius: 10px;
 }
 
-.fruit_violet {
+.fruit_violet, .opt-color-1 {
   background: #8b00ff;
 }
 
-.fruit_green {
+.fruit_green, .opt-color-2 {
   background: #84cd1b;
 }
 
-.fruit_carmazin {
+.fruit_carmazin, .opt-color-3 {
   background: #dc143c;
 }
 
-.fruit_yellow {
+.fruit_yellow, .opt-color-4 {
   background: #ffd800;
 }
 
-.fruit_lightbrown {
+.fruit_lightbrown, .opt-color-5 {
   background: #cd853f;
 }
 
@@ -135,4 +135,23 @@ main {
   background: #fff;
   height: 100%;
   padding: 10px;
+}
+/* //// */
+.select{
+  margin: 5px 10px 5px 0;
+  border: 0;
+  padding: 0 10px;
+  line-height: 80px;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+  background: none;
+  background-color: #3cbc8d;
+  color: white;
+  width: 190px;
+  height: 34px;
+}
+option {
+  width: 190px !important;
+  height: 34px !important;
 }

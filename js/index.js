@@ -233,3 +233,6 @@ function getColor(color) {
   }
 }
 
+document.addEventListener('click', (event) => {
+  console.log(event)
+})
