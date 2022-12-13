@@ -162,3 +162,6 @@ option {
   width: 190px !important;
   height: 34px !important;
 }
+.opt-color-def{
+  display: none;
+}

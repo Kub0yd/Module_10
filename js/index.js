@@ -22,18 +22,18 @@ let fruitsJSON = `[
   {"kind": "Тамаринд", "color": "светло-коричневый", "weight": 22}
 ]`;
 const arrColor = [
-  {'color': 'фиолетовый', 'engColor':'violet', 'Code': '#8b00ff'},
-  {'color': 'зеленый', 'engColor':'green',  'Code': '#84cd1b'},
-  {'color': 'розово-красный', 'engColor':'carmazin',  'Code': '#dc143c'},
-  {'color': 'желтый', 'engColor':'yellow',  'Code': '#ffd800'},
-  {'color': 'светло-коричневый', 'engColor':'lightbrown',  'Code': '#cd853f'},
-  {'color': 'красный', 'engColor':'red',  'Code': 'red'},
-  {'color': 'оранжевый', 'engColor':'orange',  'Code': 'orange'}
+  { 'color': 'фиолетовый', 'engColor': 'violet', 'Code': '#8b00ff' },
+  { 'color': 'зеленый', 'engColor': 'green', 'Code': '#84cd1b' },
+  { 'color': 'розово-красный', 'engColor': 'carmazin', 'Code': '#dc143c' },
+  { 'color': 'желтый', 'engColor': 'yellow', 'Code': '#ffd800' },
+  { 'color': 'светло-коричневый', 'engColor': 'lightbrown', 'Code': '#cd853f' },
+  { 'color': 'красный', 'engColor': 'red', 'Code': 'red' },
+  { 'color': 'оранжевый', 'engColor': 'orange', 'Code': 'orange' }
 ]
 
 // преобразование JSON в объект JavaScript
 let fruits = JSON.parse(fruitsJSON);
-const checkArr = JSON.parse(fruitsJSON); //дублирующий массив для проверки на уникальность
+// const checkArr = JSON.parse(fruitsJSON); //дублирующий массив для проверки на уникальность
 /*** ОТОБРАЖЕНИЕ ***/
 
 // отрисовка карточек
@@ -58,9 +58,9 @@ const display = () => {
       liDivContent.innerHTML = `${prop}: ${fruits[i][prop]}`;
       liDiv.appendChild(liDivContent);                                      //вставляем divы с контеном под liDiv
     }
-    
+
     newLi.className = `fruit__item fruit_${getColor(fruits[i].color)}`;
-    
+
     fruitsList.appendChild(newLi);
   }
 };
@@ -97,11 +97,11 @@ const shuffleFruits = () => {
 };
 
 shuffleButton.addEventListener('click', () => {
-
+  let checkArr =  JSON.stringify(fruits.slice(0)); //добавляем исходный массив в переменную в виде JSON
   shuffleFruits();
   display();
-  //если исходный json совпадает со сгенерированным массивом - выдаем предупреждение
-  if (JSON.stringify(checkArr) === JSON.stringify(fruits)) {
+  //если checkArr совпадает со сгенерированным массивом - выдаем предупреждение
+  if (checkArr === JSON.stringify(fruits)) {
     alert('Массив не изменился, поробуйте еще раз')
   }
 
@@ -119,7 +119,6 @@ const filterFruits = () => {
     return minWeight <= item.weight && item.weight <= maxWeight
 
   })
-  console.log(fruits)
 };
 
 filterButton.addEventListener('click', () => {
@@ -211,70 +210,53 @@ sortActionButton.addEventListener('click', () => {
 addActionButton.addEventListener('click', () => {
   // TODO: создание и добавление нового фрукта в массив fruits
   // необходимые значения берем из kindInput, colorInput, weightInput
-  // fruits.push({
-  //   'kind' : 
-  // })
+  let newFruit = {
+    "kind": kindInput.value,
+    "color": colorInput.value,
+    "weight": weightInput.value
+  };
+  switch (false) {
+    case !!kindInput.value:
+      alert('Значение вида не заполнено');
+      break;
+    case !!colorInput.value:
+      alert('Значение цвета не выбрано');
+      break;
+    case !!weightInput.value:
+      alert('Значение веса не заполнено');
+      break;
+    default:
+      fruits.push(newFruit);
+      display();
+  }
 
-  display();
 });
 
-
+// получаем цвет из массива цветов
 function getColor(color) {
   newColor = '';
   arrColor.forEach((element) => {
-    if (element.color === color){
+    //если входящий аргумент соответствует значению в массиве - выбираем необходимый эквивалент на английском
+    if (element.color === color) {  
       newColor = element.engColor
     }
   })
   return newColor
- 
-  // switch (color) {
-  //   case 'фиолетовый':
-  //     return 'violet';
-  //     break;
-  //   case 'зеленый':
-  //     return 'green';
-  //     break;
-  //   case 'розово-красный':
-  //     return 'carmazin';
-  //     break;
-  //   case 'желтый':
-  //     return 'yellow';
-  //     break;
-  //   case 'светло-коричневый':
-  //     return 'lightbrown';
-  //     break;
-  //   case 'красный':
-  //     return 'red';
-  //     break;
-  //   case 'оранжевый':
-  //     return 'orange';
-  //     break;
-
-  // }
 }
+// получаем код цвета из массива цветов
 function getColorCode(color) {
   newColor = '';
   arrColor.forEach((element) => {
-    if (element.color === color){
+    //если входящий аргумент соответствует значению в массиве - выбираем необходимый эквивалент кода
+    if (element.color === color) {
       newColor = element.Code
     }
   })
-  console.log(newColor)
   return newColor
- 
+
 }
-
-
+//При выборе цвета будет подсвечиваться поле select
 colorInput.addEventListener('click', (e) => {
   target = e.target;
-  // const style = window.getComputedStyle(`.fruit_${getColor(target.value)}`)
-  const style = window.getComputedStyle
-  colorInput.style.cssText = `background-color: ${getColorCode(target.value)};`
-  console.log(target.value)
-
+  colorInput.style.cssText = `background-color: ${getColorCode(target.value)};` //прописываем полю css свойство
 })
-// options = document.querySelector('option');
-// options.addEventListener('click', (e) => {
-//   console.log(e)
-// })
